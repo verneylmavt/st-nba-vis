@@ -314,6 +314,18 @@ def era_v_perf():
         # Display in Streamlit
         st.altair_chart(final_chart, use_container_width=True, theme="streamlit")
 
-age_v_perf()
-pos_v_perf()
-# era_v_perf()
+def main():
+    st.title("NBA Analysis and Visualization")
+    st.warning('THE WORK IS STILL IN PROGRESS!!!', icon="⚒️")
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Page", ['Age vs Performance', 'Position vs Performance'])
+    
+    if page == 'Age vs Performance':
+        age_v_perf()
+    elif page == 'Position vs Performance':
+        pos_v_perf()
+    # elif page == 'Era vs Performance':
+    #     era_v_perf()
+
+if __name__ == "__main__":
+    main()

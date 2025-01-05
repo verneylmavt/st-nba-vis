@@ -1,4 +1,4 @@
-# 🏀 NBA Data Analysis and Visualization
+# 🏀 NBA Analysis and Visualization
 
 This repository contains analysis and visualization of NBA Players and Teams, designed to be utilized in a Streamlit-based web application. The app provides an interactive interface for visualizing the stats.
 
@@ -6,7 +6,7 @@ For more information about the training process, please check the `.ipynb` files
 
 ## 🎈 Demo App
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://verneylogyt-ner.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://verneylogyt-nba-vis.streamlit.app/)
 
 <!-- ![Demo GIF](https://github.com/verneylmavt/st-nba-vis/blob/main/assets/demo.gif) -->
 
