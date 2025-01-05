@@ -266,7 +266,6 @@ def era_v_perf():
     ]
     
     for metric, title in zip(metrics, titles):
-        # Base bar chart for the metric
         base = alt.Chart(era_stats).mark_bar(opacity=0.7).encode(
             x=alt.X('era:N', title='Era', sort=sorted(era_stats['era'].unique())),
             y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
@@ -275,7 +274,6 @@ def era_v_perf():
             title=f'Era vs {title}'
         )
 
-        # Highlight the era with the maximum average value
         max_era = max_avg_eras[metric]
         max_highlight = alt.Chart(era_stats[era_stats['era'] == max_era]).mark_bar(
             color='mediumseagreen', opacity=0.7
@@ -285,7 +283,6 @@ def era_v_perf():
             tooltip=['era', f'{metric}:Q']
         )
 
-        # Highlight the era with the minimum average value
         min_era = min_avg_eras[metric]
         min_highlight = alt.Chart(era_stats[era_stats['era'] == min_era]).mark_bar(
             color='darkred', opacity=0.7
@@ -295,7 +292,6 @@ def era_v_perf():
             tooltip=['era', f'{metric}:Q']
         )
 
-        # Annotate the players with the highest stats for this specific metric
         max_metric_stats = df.groupby('era').apply(
             lambda x: x.loc[x[metric].idxmax()]
         ).reset_index(drop=True)
@@ -308,10 +304,8 @@ def era_v_perf():
             tooltip=['era', 'player', f'{metric}:Q']
         )
 
-        # Combine charts
         final_chart = (base + max_highlight + min_highlight + metric_annotations).interactive()
 
-        # Display in Streamlit
         st.altair_chart(final_chart, use_container_width=True, theme="streamlit")
 
 def main():
