@@ -1274,7 +1274,8 @@ def player_sims():
         result_df = X.iloc[[idx for idx, _ in similar]].copy()
         result_df['distance'] = [dist for _, dist in similar]
         
-        query_df["distance"] = 0
+        # query_df["distance"] = 0
+        query_df.loc[:, "distance"] = 0
         result_df = pd.concat([query_df, result_df])
         
         return result_df.reset_index(drop=True), similar, query_idx
