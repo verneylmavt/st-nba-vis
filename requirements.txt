@@ -1,10 +1,11 @@
 streamlit
 streamlit-extras
 streamlit-searchbox
-joblib
-pandas
-altair
-scikit-learn
+# joblib
+# numpy
+# pandas
+# altair
+# scikit-learn
 xgboost
 torch
 shap
