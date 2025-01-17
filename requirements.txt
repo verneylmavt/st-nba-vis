@@ -1,7 +1,12 @@
 streamlit
 streamlit-extras
-numpy
+streamlit-searchbox
+joblib
 pandas
-matplotlib
-seaborn
 altair
+scikit-learn
+xgboost
+torch
+shap
+onnx
+onnxruntime
