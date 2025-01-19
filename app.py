@@ -20,7 +20,7 @@ import xgboost as xgb
 import torch
 import torch.nn as nn
 
-import shap
+# import shap
 
 import onnxruntime as ort
 
@@ -795,11 +795,12 @@ def load_test_pred_chart(y_test, y_pred, text):
     chart = (scatter + y_equals_x).configure_axis(grid=True)
     return chart
 
-def load_tree_explainer_chart(model, X_test):
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(X_test)
-
-    shap_df = pd.DataFrame(shap_values, columns=X_test.columns)
+def load_tree_explainer_chart(shap_df, X_test):
+    # explainer = shap.TreeExplainer(model)
+    # shap_values = explainer.shap_values(X_test)
+    
+    # shap_df = pd.DataFrame(shap_values, columns=X_test.columns)
+    
     shap_melted = shap_df.melt(var_name="Feature", value_name="SHAP Value")
     shap_melted["Feature Value"] = pd.concat([X_test[col] for col in X_test.columns]).reset_index(drop=True)
     shap_melted["Feature Value"] = pd.to_numeric(shap_melted["Feature Value"], errors='coerce')
@@ -883,7 +884,8 @@ def ast_v_tov():
     X_test, y_test, y_pred = load_xgb_data("ast_v_tov")
     X_test = X_test.rename(columns={'ast': 'AST'})
     test_pred_chart = load_test_pred_chart(y_test, y_pred, "Turnovers")
-    tree_explainer_chart = load_tree_explainer_chart(model, X_test)
+    shap_df = load_df_csv("shap_df.csv", "ast_v_tov")
+    tree_explainer_chart = load_tree_explainer_chart(shap_df, X_test)
     
     
     # ----------------------
@@ -972,7 +974,8 @@ def stl_blk_v_pf():
     X_test, y_test, y_pred = load_xgb_data("stl_blk_v_pf")
     X_test = X_test.rename(columns={'stl': 'STL', 'blk': 'BLK'})
     test_pred_chart = load_test_pred_chart(y_test, y_pred, "Personal Fouls")
-    tree_explainer_chart = load_tree_explainer_chart(model, X_test)
+    shap_df = load_df_csv("shap_df.csv", "stl_blk_v_pf")
+    tree_explainer_chart = load_tree_explainer_chart(shap_df, X_test)
     
     
     # ----------------------

@@ -1,13 +1,13 @@
 streamlit
 streamlit-extras
-streamlit-searchbox
+# streamlit-searchbox
 # joblib
 # numpy
-# pandas
+pandas
 # altair
-# scikit-learn
+scikit-learn
 xgboost
 torch
-shap
+# shap
 onnx
 onnxruntime
