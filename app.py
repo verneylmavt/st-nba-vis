@@ -4,7 +4,7 @@ import joblib
 import streamlit as st
 from streamlit_extras.mention import mention
 from streamlit_extras.echo_expander import echo_expander
-from streamlit_searchbox import st_searchbox
+# from streamlit_searchbox import st_searchbox
 
 import numpy as np
 import pandas as pd
