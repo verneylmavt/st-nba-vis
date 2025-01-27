@@ -2,7 +2,7 @@
 
 This repository contains analysis and visualization of NBA Players and Teams, designed to be utilized in a Streamlit-based web application. The app provides an interactive interface for visualizing the stats.
 
-For more information about the training process, please check the `nba-vis.ipynb` files in the `training` folder.
+For more information about the training process, please check the `nba-vis.ipynb` file in the `training` folder.
 
 ## 🎈 Demo App
 
