@@ -1453,6 +1453,7 @@ def player_sims():
 
 def main():
     st.title("NBA Analysis and Visualization")
+    st.divider()
     # st.warning('THE WORK IS STILL IN PROGRESS!!!', icon="⚒️")
     
     with st.sidebar:
