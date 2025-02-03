@@ -129,62 +129,63 @@ def pos_v_perf():
     ]
     
     for metric, performance, title in zip(metrics, performances, titles):
-        base = alt.Chart(position_stats).mark_bar(opacity=0.7).encode(
-            x=alt.X('Position:N', title='Position', sort=position_order),
-            y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
-            tooltip=['Position', f'{metric}:Q']
-        ).properties(
-            title=f'Position vs {title}'
-        )
+        with st.container(border=True):
+            base = alt.Chart(position_stats).mark_bar(opacity=0.7).encode(
+                x=alt.X('Position:N', title='Position', sort=position_order),
+                y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
+                tooltip=['Position', f'{metric}:Q']
+            ).properties(
+                title=f'Position vs {title}'
+            )
 
-        max_pos = max_avg_positions[metric]
-        max_highlight = alt.Chart(position_stats[position_stats['Position'] == max_pos]).mark_bar(
-            color='mediumseagreen', opacity=0.7
-        ).encode(
-            x=alt.X('Position:N', sort=position_order),
-            y=alt.Y(f'{metric}:Q'),
-            tooltip=['Position', f'{metric}:Q']
-        )
+            max_pos = max_avg_positions[metric]
+            max_highlight = alt.Chart(position_stats[position_stats['Position'] == max_pos]).mark_bar(
+                color='mediumseagreen', opacity=0.7
+            ).encode(
+                x=alt.X('Position:N', sort=position_order),
+                y=alt.Y(f'{metric}:Q'),
+                tooltip=['Position', f'{metric}:Q']
+            )
 
-        min_pos = min_avg_positions[metric]
-        min_highlight = alt.Chart(position_stats[position_stats['Position'] == min_pos]).mark_bar(
-            color='darkred', opacity=0.7
-        ).encode(
-            x=alt.X('Position:N', sort=position_order),
-            y=alt.Y(f'{metric}:Q'),
-            tooltip=['Position', f'{metric}:Q']
-        )
+            min_pos = min_avg_positions[metric]
+            min_highlight = alt.Chart(position_stats[position_stats['Position'] == min_pos]).mark_bar(
+                color='darkred', opacity=0.7
+            ).encode(
+                x=alt.X('Position:N', sort=position_order),
+                y=alt.Y(f'{metric}:Q'),
+                tooltip=['Position', f'{metric}:Q']
+            )
 
-        max_metric_stats = df.groupby('main_pos').apply(
-            lambda x: x.loc[x[metric].idxmax()]
-        ).reset_index(drop=True)
-        max_metric_stats.rename(columns={'main_pos': 'Position'}, inplace=True)
+            max_metric_stats = df.groupby('main_pos').apply(
+                lambda x: x.loc[x[metric].idxmax()]
+            ).reset_index(drop=True)
+            max_metric_stats.rename(columns={'main_pos': 'Position'}, inplace=True)
 
-        metric_annotations = alt.Chart(max_metric_stats).mark_text(
-            dy=-10, size=10, opacity=0.7, color="whitesmoke"
-        ).encode(
-            x=alt.X('Position:N', sort=position_order),
-            y=alt.Y(f'{metric}:Q'),
-            text='Name:N',
-            tooltip=['Position', 'Name', f'{metric}:Q', f'{performance}:Q']
-        )
-        
-        max_performance_stats = df.groupby('main_pos').apply(
-            lambda x: x.loc[x[performance].idxmax()]
-        ).reset_index(drop=True)
-        max_performance_stats.rename(columns={'main_pos': 'Position'}, inplace=True)
+            metric_annotations = alt.Chart(max_metric_stats).mark_text(
+                dy=-10, size=10, opacity=0.7, color="whitesmoke"
+            ).encode(
+                x=alt.X('Position:N', sort=position_order),
+                y=alt.Y(f'{metric}:Q'),
+                text='Name:N',
+                tooltip=['Position', 'Name', f'{metric}:Q', f'{performance}:Q']
+            )
+            
+            max_performance_stats = df.groupby('main_pos').apply(
+                lambda x: x.loc[x[performance].idxmax()]
+            ).reset_index(drop=True)
+            max_performance_stats.rename(columns={'main_pos': 'Position'}, inplace=True)
 
-        performance_annotations = alt.Chart(max_performance_stats).mark_text(
-            dy=-10, size=10, opacity=0.7, color="whitesmoke"
-        ).encode(
-            x=alt.X('Position:N', sort=position_order),
-            y=alt.Y(f'{metric}:Q'),
-            text='Name:N',
-            tooltip=['Position', 'Name', f'{metric}:Q', f'{performance}:Q']
-        )
+            performance_annotations = alt.Chart(max_performance_stats).mark_text(
+                dy=-10, size=10, opacity=0.7, color="whitesmoke"
+            ).encode(
+                x=alt.X('Position:N', sort=position_order),
+                y=alt.Y(f'{metric}:Q'),
+                text='Name:N',
+                tooltip=['Position', 'Name', f'{metric}:Q', f'{performance}:Q']
+            )
 
-        final_chart = (base + max_highlight + min_highlight + metric_annotations + performance_annotations).interactive()
-        st.altair_chart(final_chart, use_container_width=True, theme="streamlit")
+            final_chart = (base + max_highlight + min_highlight + metric_annotations + performance_annotations).interactive()
+            st.altair_chart(final_chart, use_container_width=True, theme="streamlit")
 
 
 
@@ -339,97 +340,98 @@ def age_v_perf():
     ]
     
     for metric, title in zip(metrics, titles):
-        # Top-Performer
-        max_metric_stats = df.groupby('Age').apply(
-            lambda x: x.loc[x[metric].idxmax()]
-        ).reset_index(drop=True)
+        with st.container(border=True):
+            # Top-Performer
+            max_metric_stats = df.groupby('Age').apply(
+                lambda x: x.loc[x[metric].idxmax()]
+            ).reset_index(drop=True)
+            
+            max_player_points = alt.Chart(max_metric_stats).mark_circle().encode(
+                x=alt.X('Age:Q', title='Age'),
+                y=alt.Y(f'{metric}:Q'),
+                size=alt.Size(f'{metric}:Q'),
+                color=alt.Color(f'{metric}:Q'),
+                tooltip=['Age', 'Name', metric]
+            ).interactive()
         
-        max_player_points = alt.Chart(max_metric_stats).mark_circle().encode(
-            x=alt.X('Age:Q', title='Age'),
-            y=alt.Y(f'{metric}:Q'),
-            size=alt.Size(f'{metric}:Q'),
-            color=alt.Color(f'{metric}:Q'),
-            tooltip=['Age', 'Name', metric]
-        ).interactive()
-    
-        # League Average
-        average_line = alt.Chart(age_stats).mark_line().encode(
-            x=alt.X('Age:Q', title='Age'),
-            y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
-            tooltip=['Age', metric]
-        ).properties(
-            title=f'Age vs {title}'
-        )
-        
-        # LeBron James
-        lebron_line = alt.Chart(lebron_age_stats).mark_line(color='yellow').encode(
-            x=alt.X('Age:Q', title='Age'),
-            y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
-            tooltip=['Age', 'Name', f'{metric}']
-        ).properties(
-            title=f'LeBron James: Age vs {title}'
-        )
-        
-        # Michael Jordan
-        mj_line = alt.Chart(mj_age_stats).mark_line(color='red').encode(
-            x=alt.X('Age:Q', title='Age'),
-            y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
-            tooltip=['Age', 'Name', f'{metric}']
-        ).properties(
-            title=f'Michael Jordan: Age vs {title}'
-        )
-        
-        # Kobe Bryant
-        kobe_line = alt.Chart(kobe_age_stats).mark_line(color='orange').encode(
-            x=alt.X('Age:Q', title='Age'),
-            y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
-            tooltip=['Age', 'Name', f'{metric}']
-        ).properties(
-            title=f'Kobe Bryant: Age vs {title}'
-        )
-        
-        # Maximum League Average
-        max_avg_point = alt.Chart(age_stats[age_stats['Age'] == max_avg_ages[metric]]).mark_point(
-            size=100, color='mediumseagreen', opacity=0.7
-        ).encode(
-            x='Age:Q',
-            y=f'{metric}:Q',
-            tooltip=['Age', metric]
-        )
-        
-        # Minimum League Average
-        min_avg_point = alt.Chart(age_stats[age_stats['Age'] == min_avg_ages[metric]]).mark_point(
-            size=100, color='darkred', opacity=0.7
-        ).encode(
-            x='Age:Q',
-            y=f'{metric}:Q',
-            tooltip=['Age', metric]
-        )
-    
-        final_chart = (average_line + lebron_line + mj_line + kobe_line + max_avg_point + min_avg_point + max_player_points).interactive()
-        st.altair_chart(final_chart, use_container_width=True, theme="streamlit")
-        
-        col1, col2, col3, col4, col5 = st.columns(5)
-        with col1:
-            st.write("Average 🔵")
-            age_stats_metric = age_stats[['Age', metric]]
-            st.dataframe(age_stats_metric, hide_index=True)
-        with col2:
-            st.write("Michael Jordan 🔴")
-            mj_age_stats_metric = mj_age_stats[['Age', metric]]
-            st.dataframe(mj_age_stats_metric, hide_index=True)
-        with col3:
-            st.write("Kobe Bryant 🟠")
-            kobe_age_stats_metric = kobe_age_stats[['Age', metric]]
-            st.dataframe(kobe_age_stats_metric, hide_index=True)
-        with col4:
-            st.write("LeBron James 🟡")
-            lebron_age_stats_metric = lebron_age_stats[['Age', metric]]
-            st.dataframe(lebron_age_stats_metric, hide_index=True)
-        with col5:
-            st.write("Top-Performer")
-            max_metric_stats_metric = max_metric_stats[['Age', 'Name', metric]]
-            st.dataframe(max_metric_stats_metric, hide_index=True)
+            # League Average
+            average_line = alt.Chart(age_stats).mark_line().encode(
+                x=alt.X('Age:Q', title='Age'),
+                y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
+                tooltip=['Age', metric]
+            ).properties(
+                title=f'Age vs {title}'
+            )
+            
+            # LeBron James
+            lebron_line = alt.Chart(lebron_age_stats).mark_line(color='yellow').encode(
+                x=alt.X('Age:Q', title='Age'),
+                y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
+                tooltip=['Age', 'Name', f'{metric}']
+            ).properties(
+                title=f'LeBron James: Age vs {title}'
+            )
+            
+            # Michael Jordan
+            mj_line = alt.Chart(mj_age_stats).mark_line(color='red').encode(
+                x=alt.X('Age:Q', title='Age'),
+                y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
+                tooltip=['Age', 'Name', f'{metric}']
+            ).properties(
+                title=f'Michael Jordan: Age vs {title}'
+            )
+            
+            # Kobe Bryant
+            kobe_line = alt.Chart(kobe_age_stats).mark_line(color='orange').encode(
+                x=alt.X('Age:Q', title='Age'),
+                y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
+                tooltip=['Age', 'Name', f'{metric}']
+            ).properties(
+                title=f'Kobe Bryant: Age vs {title}'
+            )
+            
+            # Maximum League Average
+            max_avg_point = alt.Chart(age_stats[age_stats['Age'] == max_avg_ages[metric]]).mark_point(
+                size=100, color='mediumseagreen', opacity=0.7
+            ).encode(
+                x='Age:Q',
+                y=f'{metric}:Q',
+                tooltip=['Age', metric]
+            )
+            
+            # Minimum League Average
+            min_avg_point = alt.Chart(age_stats[age_stats['Age'] == min_avg_ages[metric]]).mark_point(
+                size=100, color='darkred', opacity=0.7
+            ).encode(
+                x='Age:Q',
+                y=f'{metric}:Q',
+                tooltip=['Age', metric]
+            )
+            
+            final_chart = (average_line + lebron_line + mj_line + kobe_line + max_avg_point + min_avg_point + max_player_points).interactive()
+            st.altair_chart(final_chart, use_container_width=True, theme="streamlit")
+            
+            col1, col2, col3, col4, col5 = st.columns(5)
+            with col1:
+                st.write("Average 🔵")
+                age_stats_metric = age_stats[['Age', metric]]
+                st.dataframe(age_stats_metric, hide_index=True, use_container_width=True)
+            with col2:
+                st.write("Michael Jordan 🔴")
+                mj_age_stats_metric = mj_age_stats[['Age', metric]]
+                st.dataframe(mj_age_stats_metric, hide_index=True, use_container_width=True)
+            with col3:
+                st.write("Kobe Bryant 🟠")
+                kobe_age_stats_metric = kobe_age_stats[['Age', metric]]
+                st.dataframe(kobe_age_stats_metric, hide_index=True, use_container_width=True)
+            with col4:
+                st.write("LeBron James 🟡")
+                lebron_age_stats_metric = lebron_age_stats[['Age', metric]]
+                st.dataframe(lebron_age_stats_metric, hide_index=True, use_container_width=True)
+            with col5:
+                st.write("Top-Performer ⭐")
+                max_metric_stats_metric = max_metric_stats[['Age', 'Name', metric]]
+                st.dataframe(max_metric_stats_metric, hide_index=True, use_container_width=True)
 
 
 
@@ -670,70 +672,71 @@ def era_v_perf():
     ]
 
     for metric, title in zip(metrics, titles):
-        base = alt.Chart(era_stats).mark_bar(opacity=0.7).encode(
-            x=alt.X('EraMidpoint:Q', title='Season', scale=alt.Scale(domain=[1970, 2030]), axis=alt.Axis(format='d')),
-            y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
-            tooltip=['Era', f'{metric}:Q']
-        ).properties(
-            title=f'Era vs {title}'
-        )
+        with st.container(border=True):
+            base = alt.Chart(era_stats).mark_bar(opacity=0.7).encode(
+                x=alt.X('EraMidpoint:Q', title='Season', scale=alt.Scale(domain=[1970, 2030]), axis=alt.Axis(format='d')),
+                y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
+                tooltip=['Era', f'{metric}:Q']
+            ).properties(
+                title=f'Era vs {title}'
+            )
 
-        max_era = max_avg_eras[metric]
-        max_highlight = alt.Chart(era_stats[era_stats['Era'] == max_era]).mark_bar(
-            color='mediumseagreen', opacity=0.7
-        ).encode(
-            x=alt.X('EraMidpoint:Q', scale=alt.Scale(domain=[1970, 2030])),
-            y=alt.Y(f'{metric}:Q'),
-            tooltip=['Era', f'{metric}:Q']
-        )
+            max_era = max_avg_eras[metric]
+            max_highlight = alt.Chart(era_stats[era_stats['Era'] == max_era]).mark_bar(
+                color='mediumseagreen', opacity=0.7
+            ).encode(
+                x=alt.X('EraMidpoint:Q', scale=alt.Scale(domain=[1970, 2030])),
+                y=alt.Y(f'{metric}:Q'),
+                tooltip=['Era', f'{metric}:Q']
+            )
 
-        min_era = min_avg_eras[metric]
-        min_highlight = alt.Chart(era_stats[era_stats['Era'] == min_era]).mark_bar(
-            color='darkred', opacity=0.7
-        ).encode(
-            x=alt.X('EraMidpoint:Q', scale=alt.Scale(domain=[1970, 2030])),
-            y=alt.Y(f'{metric}:Q'),
-            tooltip=['Era', f'{metric}:Q']
-        )
-        
-        averseason_line = alt.Chart(season_stats).mark_line().encode(
-            x=alt.X('Season:Q', title='Season', axis=alt.Axis(format='d')),
-            y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
-            tooltip=['Season', metric]
-        ).properties(
-            title=f'Season vs {title}'
-        )
+            min_era = min_avg_eras[metric]
+            min_highlight = alt.Chart(era_stats[era_stats['Era'] == min_era]).mark_bar(
+                color='darkred', opacity=0.7
+            ).encode(
+                x=alt.X('EraMidpoint:Q', scale=alt.Scale(domain=[1970, 2030])),
+                y=alt.Y(f'{metric}:Q'),
+                tooltip=['Era', f'{metric}:Q']
+            )
+            
+            averseason_line = alt.Chart(season_stats).mark_line().encode(
+                x=alt.X('Season:Q', title='Season', axis=alt.Axis(format='d')),
+                y=alt.Y(f'{metric}:Q', title=f'{metric.upper()}'),
+                tooltip=['Season', metric]
+            ).properties(
+                title=f'Season vs {title}'
+            )
 
-        max_avg_point = alt.Chart(season_stats[season_stats['Season'] == max_avg_seasons[metric]]).mark_point(
-            size=100, color='mediumseagreen', opacity=0.7
-        ).encode(
-            x='Season:Q',
-            y=f'{metric}:Q',
-            tooltip=['Season', metric]
-        )
-        
-        min_avg_point = alt.Chart(season_stats[season_stats['Season'] == min_avg_seasons[metric]]).mark_point(
-            size=100, color='darkred', opacity=0.7
-        ).encode(
-            x='Season:Q',
-            y=f'{metric}:Q',
-            tooltip=['Season', metric]
-        )
-        
-        max_metric_stats = player_era_stats.groupby('Era').apply(
-            lambda x: x.loc[x[metric].idxmax()]
-        ).reset_index(drop=True)
-        metric_annotations = alt.Chart(max_metric_stats).mark_text(
-            dy=-10, size=10, opacity=0.7, color="whitesmoke"
-        ).encode(
-            x=alt.X('EraMidpoint:Q', title='Season'),
-            y=alt.Y(f'{metric}:Q'),
-            text='Name:N',
-            tooltip=['Era', 'Name', f'{metric}:Q']
-        )
+            max_avg_point = alt.Chart(season_stats[season_stats['Season'] == max_avg_seasons[metric]]).mark_point(
+                size=100, color='mediumseagreen', opacity=0.7
+            ).encode(
+                x='Season:Q',
+                y=f'{metric}:Q',
+                tooltip=['Season', metric]
+            )
+            
+            min_avg_point = alt.Chart(season_stats[season_stats['Season'] == min_avg_seasons[metric]]).mark_point(
+                size=100, color='darkred', opacity=0.7
+            ).encode(
+                x='Season:Q',
+                y=f'{metric}:Q',
+                tooltip=['Season', metric]
+            )
+            
+            max_metric_stats = player_era_stats.groupby('Era').apply(
+                lambda x: x.loc[x[metric].idxmax()]
+            ).reset_index(drop=True)
+            metric_annotations = alt.Chart(max_metric_stats).mark_text(
+                dy=-10, size=10, opacity=0.7, color="whitesmoke"
+            ).encode(
+                x=alt.X('EraMidpoint:Q', title='Season'),
+                y=alt.Y(f'{metric}:Q'),
+                text='Name:N',
+                tooltip=['Era', 'Name', f'{metric}:Q']
+            )
 
-        final_chart = (base + max_highlight + min_highlight + averseason_line + max_avg_point + min_avg_point + metric_annotations).interactive()
-        st.altair_chart(final_chart, use_container_width=True, theme="streamlit")
+            final_chart = (base + max_highlight + min_highlight + averseason_line + max_avg_point + min_avg_point + metric_annotations).interactive()
+            st.altair_chart(final_chart, use_container_width=True, theme="streamlit")
         
         
 
@@ -963,7 +966,7 @@ def ast_v_tov():
     st.subheader("""Top 100 Assist-to-Turnover Players""")
     top_100_ast_tov_1980 = pd.read_csv(os.path.join("models", "ast_v_tov", "top_100_ast-tov_1980.csv"))
     top_100_ast_tov_1980.rename(columns={'player': 'Name', 'pos':'Position', 'g':'Games', 'ast': 'AST', 'tov': 'TO', 'ast/tov':'AST/TO Ratio'}, inplace=True)
-    st.dataframe(top_100_ast_tov_1980, hide_index=True)
+    st.dataframe(top_100_ast_tov_1980, hide_index=True, use_container_width=True)
 
 
 
@@ -1356,7 +1359,7 @@ def player_sims():
                         'ft_percent': 'FT%',
                         'distance': 'Euclidean Distance'
                     })
-                    st.dataframe(result_df, hide_index=True)
+                    st.dataframe(result_df, hide_index=True, use_container_width=True)
                     
                 visualization_df = visualize_sim_players(player, season, latent_reps, similar, query_idx)
                 visualization_df['Similarity (Normalized)'] = (visualization_df['Similarity'] - visualization_df['Similarity'].min()) / \
@@ -1452,21 +1455,23 @@ def player_sims():
 # ----------------------
 
 def main():
+    st.set_page_config(layout="wide")
+    
     st.title("NBA Analysis and Visualization")
     st.divider()
     # st.warning('THE WORK IS STILL IN PROGRESS!!!', icon="⚒️")
     
     with st.sidebar:
         st.title("Pages")
-        category = st.radio("Category", ["Charts 📈", "Supervised Learning 🎓", "Unsupervised Learning 🔍"])
-        if category == "Charts 📈":
+        category = st.radio("Category", ["Charts", "Supervised Learning", "Unsupervised Learning"])
+        if category == "Charts":
             option = st.radio("Options", ["Age vs Performance", "Position vs Performance", "Era vs Performance"])
-        elif category == "Supervised Learning 🎓":
+        elif category == "Supervised Learning":
             option = st.radio("Options", ["Assist → Turnover", "Steal & Block → Personal Foul", "Performance → Position"])
-        elif category == "Unsupervised Learning 🔍":
+        elif category == "Unsupervised Learning":
             option = st.radio("Options", ["Player Similarity"])
     
-    if category == "Charts 📈":
+    if category == "Charts":
         if option == "Age vs Performance":
             age_v_perf()
         elif option == "Position vs Performance":
@@ -1474,7 +1479,7 @@ def main():
         elif option == "Era vs Performance":
             era_v_perf()
 
-    elif category == "Supervised Learning 🎓":
+    elif category == "Supervised Learning":
         if option == "Assist → Turnover":
             ast_v_tov()
         elif option == "Steal & Block → Personal Foul":
@@ -1482,7 +1487,7 @@ def main():
         elif option == "Performance → Position":
             mtrcs_v_pos()
     
-    elif category == "Unsupervised Learning 🔍":
+    elif category == "Unsupervised Learning":
         if option == "Player Similarity":
             player_sims()
 
