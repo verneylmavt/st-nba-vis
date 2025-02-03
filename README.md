@@ -42,3 +42,14 @@ Ensure you have the following installed:
    ```bash
    streamlit run app.py
    ```
+
+## ⚖️ Acknowledgement
+
+I acknowledge the use of the **NBA Stats (1947-present)** dataset provided by **Sumitro Datta** on Kaggle. This dataset has been instrumental in conducting the research and developing this project.
+
+- **Dataset Name**: NBA Stats (1947-present)
+- **Source**: [Kaggle - NBA Stats (1947-present)](https://www.kaggle.com/datasets/sumitrodatta/nba-aba-baa-stats)
+- **License**: Creative Commons Public Domain
+- **Description**: This dataset contains historical basketball statistics from the NBA, ABA, and BAA leagues spanning from 1947 to the present. It includes player totals, per-game stats, advanced metrics, team standings, and playoff performance.
+
+I deeply appreciate the efforts of Sumitro Datta in making this dataset available.
