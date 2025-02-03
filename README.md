@@ -48,7 +48,7 @@ Ensure you have the following installed:
 I acknowledge the use of the **NBA Stats (1947-present)** dataset provided by **Sumitro Datta** on Kaggle. This dataset has been instrumental in conducting the research and developing this project.
 
 - **Dataset Name**: NBA Stats (1947-present)
-- **Source**: [Kaggle - NBA Stats (1947-present)](https://www.kaggle.com/datasets/sumitrodatta/nba-aba-baa-stats)
+- **Source**: [https://www.kaggle.com/datasets/sumitrodatta/nba-aba-baa-stats](https://www.kaggle.com/datasets/sumitrodatta/nba-aba-baa-stats)
 - **License**: Creative Commons Public Domain
 - **Description**: This dataset contains player statistics from the NBA, ABA, and BAA leagues from 1947 to the present. It includes individual player totals such as points, assists, rebounds, and other relevant performance metrics.
 
