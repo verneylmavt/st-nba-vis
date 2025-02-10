@@ -3,7 +3,7 @@ import joblib
 
 import streamlit as st
 from streamlit_extras.mention import mention
-from streamlit_extras.echo_expander import echo_expander
+# from streamlit_extras.echo_expander import echo_expander
 # from streamlit_searchbox import st_searchbox
 
 import numpy as np
@@ -934,6 +934,7 @@ def ast_v_tov():
     st.divider()
     
     st.subheader("""Model""")
+    from streamlit_extras.echo_expander import echo_expander
     with echo_expander(code_location="below", label="Code"):
         import xgboost as xgb
         
@@ -1035,6 +1036,7 @@ def stl_blk_v_pf():
     st.divider()
     
     st.subheader("""Model""")
+    from streamlit_extras.echo_expander import echo_expander
     with echo_expander(code_location="below", label="Code"):
         import xgboost as xgb
         
@@ -1111,6 +1113,7 @@ def mtrcs_v_pos():
     # ----------------------
     
     def predict_pos(model, scaler, label_encoder, x2p_percent, x3p_percent, ft_percent, trb, ast, stl, blk, pts):
+        
         input_name = model.get_inputs()[0].name
         output_name = model.get_outputs()[0].name
         # print(input_name)
@@ -1167,6 +1170,7 @@ def mtrcs_v_pos():
     st.divider()
     
     st.subheader("""Model""")
+    from streamlit_extras.echo_expander import echo_expander
     with echo_expander(code_location="below", label="Code"):
         import xgboost as xgb
         
@@ -1407,6 +1411,7 @@ def player_sims():
     
     
     st.subheader("""Model""")
+    from streamlit_extras.echo_expander import echo_expander
     with echo_expander(code_location="below", label="Code"):
         import torch
         import torch.nn as nn
