@@ -1455,7 +1455,8 @@ def player_sims():
 # ----------------------
 
 def main():
-    st.set_page_config(layout="wide")
+    st.set_page_config(page_title="NBA Analysis and Visualization",
+                    layout="wide")
     
     st.title("NBA Analysis and Visualization")
     st.divider()
